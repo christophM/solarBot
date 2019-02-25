@@ -1,6 +1,7 @@
 import tweepy
 import json
 import psutil
+import sys
 
 def twitter_api():
     with open('config.json') as json_data_file:
@@ -21,7 +22,7 @@ def twitter_api():
 
 def tweet():
     api = twitter_api()
-    filename = "../image.jpeg"
+    filename = sys.argv[1]
     # Write a tweet to push to our Twitter account
     tweet = 'I am alive again!'
     api.update_with_media(filename, status=tweet)
