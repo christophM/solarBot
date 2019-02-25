@@ -21,7 +21,7 @@ def twitter_api():
 
 def tweet():
     api = twitter_api()
-    filename = "image.jpeg"
+    filename = "../image.jpeg"
     # Write a tweet to push to our Twitter account
     tweet = 'I am alive again!'
     api.update_with_media(filename, status=tweet)
