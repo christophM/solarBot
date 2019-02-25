@@ -1,7 +1,6 @@
 import tweepy
 import json
 import psutil
-from cv2 import *
 
 def twitter_api():
     with open('config.json') as json_data_file:
@@ -31,19 +30,8 @@ def uptime():
     return time.time() - psutil.boot_time()
 
 
-def snapshot():
-    cam = VideoCapture(0)   # 0 -> index of camera
-    s, img = cam.read()
-    if s:    # frame captured without any errors
-        namedWindow("cam-test",CV_WINDOW_AUTOSIZE)
-        imshow("cam-test",img)
-        waitKey(0)
-        destroyWindow("cam-test")
-        imwrite("image.jpeg",img) #save image
-
 
 def main():
-    snapshot()
     tweet()
 
 if __name__ == "__main__":
