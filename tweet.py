@@ -1,7 +1,10 @@
 import tweepy
 import json
 import psutil
-import sys
+import os
+
+
+IMG_FILENAME = "/home/pi/image.jpeg"
 
 def twitter_api():
     with open('config.json') as json_data_file:
@@ -22,15 +25,17 @@ def twitter_api():
 
 def tweet():
     api = twitter_api()
-    filename = sys.argv[1]
+    snapshot()
     # Write a tweet to push to our Twitter account
     tweet = 'I am alive again!'
-    api.update_with_media(filename, status=tweet)
+    api.update_with_media(IMG_FILENAME, status=tweet)
 
 def uptime():
     return time.time() - psutil.boot_time()
 
-
+def snapshot():
+    cmd = "raspistill -o %s" % IMG_FILENAME
+    os.system(cmd)
 
 def main():
     tweet()
