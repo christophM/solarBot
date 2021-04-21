@@ -5,9 +5,10 @@ import os
 
 
 IMG_FILENAME = "/home/pi/image.jpeg"
+CONFIG_FILENAME = "/home/pi/solarBot/config.json"
 
 def twitter_api():
-    with open('config.json') as json_data_file:
+    with open(CONFIG_FILENAME) as json_data_file:
         config = json.load(json_data_file)
  
     # Create variables for each key, secret, token

@@ -51,11 +51,13 @@ Add to crontab:
 
 ## Give IP address
 
+- Install noip2 (TODO: how?)
+
 ## Deploy 
 
 - type `crontab -e` and add:  
 `@reboot sudo /usr/local/bin/noip2
- @reboot /home/pi/solarBot/venv/bin/python3 tweet.py
+ @reboot /home/pi/solarBot/venv/bin/python3 /home/pi/solarBot/tweet.py
 `
 - the first line sets ip address
 - the second line tweets after reboot
