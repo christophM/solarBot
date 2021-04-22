@@ -5,6 +5,7 @@ import os
 from picamera import PiCamera
 from time import sleep
 
+# Where to store image
 IMG_FILENAME = "/home/pi/image.jpeg"
 CONFIG_FILENAME = "/home/pi/solarBot/config.json"
 
@@ -12,7 +13,7 @@ CONFIG_FILENAME = "/home/pi/solarBot/config.json"
 def twitter_api():
     with open(CONFIG_FILENAME) as json_data_file:
         config = json.load(json_data_file)
- 
+
     # Create variables for each key, secret, token
     consumer_key = config['consumer_key']
     consumer_secret = config['consumer_secret']
