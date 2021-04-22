@@ -2,10 +2,12 @@ import tweepy
 import json
 import psutil
 import os
-
+from picamera import PiCamera
+from time import sleep
 
 IMG_FILENAME = "/home/pi/image.jpeg"
 CONFIG_FILENAME = "/home/pi/solarBot/config.json"
+
 
 def twitter_api():
     with open(CONFIG_FILENAME) as json_data_file:
@@ -33,14 +35,18 @@ def tweet():
         api.update_with_media(IMG_FILENAME, status=tweet)
     except:
         tweet = 'Ah darn, waking up and my cam is broken =['
-        api.update(status=tweet)
+        api.update_status(status=tweet)
 
 def uptime():
     return time.time() - psutil.boot_time()
 
 def snapshot():
-    cmd = "raspistill -o %s" % IMG_FILENAME
-    os.system(cmd)
+    camera = PiCamera()
+    # Sleep necessary to adjust lense for brightness
+    camera.start_preview()
+    sleep(2)
+    camera.capture(IMG_FILENAME)
+    camera.stop_preview()
 
 def main():
     tweet()
