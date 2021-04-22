@@ -26,10 +26,14 @@ def twitter_api():
 
 def tweet():
     api = twitter_api()
-    snapshot()
-    # Write a tweet to push to our Twitter account
-    tweet = 'I am alive again!'
-    api.update_with_media(IMG_FILENAME, status=tweet)
+    try:
+        snapshot()
+        # Write a tweet to push to our Twitter account
+        tweet = 'I am alive again!'
+        api.update_with_media(IMG_FILENAME, status=tweet)
+    except:
+        tweet = 'Ah darn, waking up and my cam is broken =['
+        api.update(status=tweet)
 
 def uptime():
     return time.time() - psutil.boot_time()
