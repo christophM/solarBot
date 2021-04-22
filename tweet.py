@@ -4,10 +4,30 @@ import psutil
 import os
 from picamera import PiCamera
 from time import sleep
+import requests
 
 # Where to store image
 IMG_FILENAME = "/home/pi/image.jpeg"
 CONFIG_FILENAME = "/home/pi/solarBot/config.json"
+DEEPAI_FILENAME = "/home/chris/repos/solarBot/deepai.json"
+
+TEXT_LEN = 280
+def babble():
+    with open(DEEPAI_FILENAME) as json_data_file:
+        dat = json.load(json_data_file)
+    r = requests.post("https://api.deepai.org/api/text-generator",
+                      data={'text': dat['text']},
+                      headers={'api-key': dat['api-key']})
+    orig_len = len(dat['text'])
+    txt = r.json()['output']
+    # removes the seed sentence
+    txt = txt[orig_len:]
+    first_quote_pos = txt.find("\"")
+    if first_quote_pos <= TEXT_LEN:
+        stop_at = first_quote_pos
+    else:
+        stop_at = TEXT_LEN
+    return(txt[:stop_at])
 
 
 def twitter_api():
@@ -32,8 +52,8 @@ def tweet():
     try:
         snapshot()
         # Write a tweet to push to our Twitter account
-        tweet = 'I am alive again!'
-        api.update_with_media(IMG_FILENAME, status=tweet)
+        tweet_text = babble()
+        api.update_with_media(IMG_FILENAME, status=tweet_text)
     except:
         tweet = 'Ah darn, waking up and my cam is broken =['
         api.update_status(status=tweet)
