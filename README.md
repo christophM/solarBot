@@ -49,6 +49,10 @@ Add to crontab:
 - Add config.json with list {"consumer_key", "consumer_secret", "access_token", "access_token_secret"}
 - 
 
+## Setup Language Model
+
+- Get DeepAI account and API-key
+
 ## Give IP address
 
 - Install noip2 (TODO: how?)
