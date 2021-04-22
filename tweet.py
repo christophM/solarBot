@@ -9,7 +9,7 @@ import requests
 # Where to store image
 IMG_FILENAME = "/home/pi/image.jpeg"
 CONFIG_FILENAME = "/home/pi/solarBot/config.json"
-DEEPAI_FILENAME = "/home/chris/repos/solarBot/deepai.json"
+DEEPAI_FILENAME = "/home/pi/solarBot/deepai.json"
 
 TEXT_LEN = 280
 def babble():
@@ -55,6 +55,7 @@ def tweet():
         tweet_text = babble()
         api.update_with_media(IMG_FILENAME, status=tweet_text)
     except:
+        print("cound not find camera")
         tweet = 'Ah darn, waking up and my cam is broken =['
         api.update_status(status=tweet)
 
