@@ -7,12 +7,19 @@ from time import sleep
 import requests
 import re
 
+
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--image", help="add image to tweet",
+                            action="store_true")
+args = parser.parse_args()
+
 # Where to store image
 IMG_FILENAME = "/home/pi/image.jpeg"
 CONFIG_FILENAME = "/home/pi/solarBot/config.json"
 DEEPAI_FILENAME = "/home/pi/solarBot/deepai.json"
-
 TEXT_LEN = 280
+
 def babble():
     with open(DEEPAI_FILENAME) as json_data_file:
         dat = json.load(json_data_file)
@@ -61,7 +68,10 @@ def tweet():
         snapshot()
         # Write a tweet to push to our Twitter account
         tweet_text = babble()
-        api.update_with_media(IMG_FILENAME, status=tweet_text)
+        if (args.image):
+            api.update_with_media(IMG_FILENAME, status=tweet_text)
+        else:
+            api.update_status(status=tweet_text)
     except:
         print("cound not find camera")
         tweet = 'Ah darn, waking up and my cam is broken =['
