@@ -26,7 +26,14 @@ def babble():
     if first_quote_pos <= TEXT_LEN:
         stop_at = first_quote_pos
     else:
-        stop_at = TEXT_LEN
+        # find all point occurences
+        endings = [x.start() for x in re.finditer('\.|\!|\?'), txt]
+        # only endings before max. allowed text length
+        endings = [x for x in indexes if x <= TEXT_LEN]
+        if  len(endings) > 0:
+            stop_at = min(endings)
+        else:
+            stop_at = TEXT_LEN
     return(txt[:stop_at])
 
 
