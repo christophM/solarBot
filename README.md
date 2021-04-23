@@ -63,7 +63,7 @@ Add to crontab:
 `@reboot sudo /usr/local/bin/noip2
  @reboot /home/pi/solarBot/venv/bin/python3 /home/pi/solarBot/tweet.py --image
 */10 * * * * /home/pi/solarBot/venv/bin/python3 /home/pi/solarBot/tweet.py
-
+*/5  * * * * /home/pi/solarBot/venv/bin/python3 /home/pi/solarBot/increase-uptime.py 
 `
 - the first line sets ip address
 - the second line tweets after reboot
