@@ -25,7 +25,7 @@ def babble():
     txt = txt[orig_len:]
     first_quote_pos = txt.find("\"")
     if (first_quote_pos != -1) & (first_quote_pos <= TEXT_LEN):
-        stop_at = first_quote_pos + 1
+        stop_at = first_quote_pos 
     else:
         # find all point occurences
         endings = [x.start() for x in re.finditer('\.|\!|\?', txt)]
