@@ -17,7 +17,7 @@ def write_status(status):
 
 def main():
     status = read_status()
-    status = increase_wakeup(status, what = "wakeup", by = 5)
+    status = increase(status, what = "wakeup", by = 5)
     write_status(status)
 
 if __name__ == "__main__":
