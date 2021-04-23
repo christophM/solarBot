@@ -5,6 +5,7 @@ import os
 from picamera import PiCamera
 from time import sleep
 import requests
+import re
 
 # Where to store image
 IMG_FILENAME = "/home/pi/image.jpeg"
@@ -23,15 +24,15 @@ def babble():
     # removes the seed sentence
     txt = txt[orig_len:]
     first_quote_pos = txt.find("\"")
-    if first_quote_pos <= TEXT_LEN:
-        stop_at = first_quote_pos
+    if (first_quote_pos != -1) & (first_quote_pos <= TEXT_LEN):
+        stop_at = first_quote_pos + 1
     else:
         # find all point occurences
-        endings = [x.start() for x in re.finditer('\.|\!|\?'), txt]
+        endings = [x.start() for x in re.finditer('\.|\!|\?', txt)]
         # only endings before max. allowed text length
-        endings = [x for x in indexes if x <= TEXT_LEN]
+        endings = [x for x in endings if x <= TEXT_LEN]
         if  len(endings) > 0:
-            stop_at = min(endings)
+            stop_at = max(endings) + 1
         else:
             stop_at = TEXT_LEN
     return(txt[:stop_at])
