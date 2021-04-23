@@ -12,12 +12,17 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--image", help="add image to tweet",
                             action="store_true")
+parser.add_argument("--bootmsg", help="tweet boot message",
+                            action="store_true")
 args = parser.parse_args()
 
+WDIR = "/home/pi/solarBot"
 # Where to store image
-IMG_FILENAME = "/home/pi/image.jpeg"
-CONFIG_FILENAME = "/home/pi/solarBot/config.json"
-DEEPAI_FILENAME = "/home/pi/solarBot/deepai.json"
+IMG_FILENAME = os.path.join(WDIR, "image.jpeg")
+CONFIG_FILENAME = os.path.join(WDIR, "config.json")
+DEEPAI_FILENAME = os.path.join(WDIR, "deepai.json")
+STATUS_FILENAME = os.path.join(WDIR, "status.json")
+
 TEXT_LEN = 280
 
 def babble():
@@ -47,6 +52,14 @@ def babble():
             stop_at = TEXT_LEN
     return(txt[:stop_at])
 
+def construct_bootmsg():
+    with open(STATUS_FILENAME) as json_data_file:
+        status = json.load(json_data_file)
+    uptime_h = round(status['uptime'] / 60, 1)
+    status_txt = f"> Waking up for cylce no. {status['wakeups']}.\n> Total uptime: {uptime_h}h. \n> Loading AI capabilities.\n> ... \n> AI brain partially sunburned.\n> Loading anyways.\n> ... \n> Success."    
+    # vcgencmd measure_temp
+    return(status_txt)
+    
 
 def twitter_api():
     with open(CONFIG_FILENAME) as json_data_file:
@@ -72,7 +85,10 @@ def tweet():
         snapshot()
         # Write a tweet to push to our Twitter account
         tweet_text = babble()
-        if (args.image):
+        if (args.bootmsg):
+            msg = construct_bootmsg()
+            api.update_status(status = msg)
+        elif (args.image):
             api.update_with_media(IMG_FILENAME, status=tweet_text)
         else:
             api.update_status(status=tweet_text)
