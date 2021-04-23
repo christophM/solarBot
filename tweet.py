@@ -23,9 +23,12 @@ TEXT_LEN = 280
 def babble():
     with open(DEEPAI_FILENAME) as json_data_file:
         dat = json.load(json_data_file)
+    with open(CONFIG_FILENAME) as json_data_file:
+        config = json.load(json_data_file)
+
     r = requests.post("https://api.deepai.org/api/text-generator",
                       data={'text': dat['text']},
-                      headers={'api-key': dat['api-key']})
+                      headers={'api-key': config['deepai']['key']})
     orig_len = len(dat['text'])
     txt = r.json()['output']
     # removes the seed sentence
@@ -50,10 +53,11 @@ def twitter_api():
         config = json.load(json_data_file)
 
     # Create variables for each key, secret, token
-    consumer_key = config['consumer_key']
-    consumer_secret = config['consumer_secret']
-    access_token = config['access_token']
-    access_token_secret = config['access_token_secret']
+    twconfig = config['twitter']
+    consumer_key = twconfig['consumer_key']
+    consumer_secret = twconfig['consumer_secret']
+    access_token = twconfig['access_token']
+    access_token_secret = twconfig['access_token_secret']
 
     # Set up OAuth and integrate with API
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
