@@ -53,9 +53,24 @@ Add to crontab:
 
 - Get DeepAI account and API-key
 
+## Setup GSM stick
+
+- Connect stick
+- check with `lsusb` that Huawei Stick is detected
+- `sudo apt install usb-modeswitch usb-modeswitch-data`
+- https://tutorials-raspberrypi.com/raspberry-pi-gsm-module-mobile-internet-lte-3g-umts/
+
+
+## Setup Reverse SSH
+
+This is only necessary when 3G is used.
+
+- https://zieren.de/raspberry-pi/reverse-ssh-through-3gnat/
+
 ## Give IP address
 
 - Install noip2 (TODO: how?)
+- https://www.blackmoreops.com/2020/11/18/how-to-install-the-noip2-on-ubuntu-and-run-via-systemd-systemctl-noip-dynamic-update-client/
 
 ## Deploy 
 
