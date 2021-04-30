@@ -81,6 +81,7 @@ def twitter_api():
 
 def tweet():
     api = twitter_api()
+    sleep(600)
     try:
         snapshot()
         # Write a tweet to push to our Twitter account
